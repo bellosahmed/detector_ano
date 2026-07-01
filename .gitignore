@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# User-uploaded data & trained models (never commit)
+uploads/
+data/
+*.csv
+*.parquet
+*.h5
+*.pt
+*.pkl
+# keep tiny bundled samples
+!samples/*.csv
+
+# Generated docs / office files
+*.pptx
+*.ppt
+*.docx
+*.xlsx
+
+# Internal / project-tracking docs — kept locally, not published
+docs/
+benchmarks/results/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

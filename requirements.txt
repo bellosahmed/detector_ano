@@ -1,0 +1,17 @@
+# Phase 0 core — kept deliberately small
+pandas
+numpy
+scipy
+scikit-learn
+statsmodels
+python-dateutil
+openpyxl
+
+# web UI
+flask
+
+# optional — deep-model comparison only (Phase 4); the core needs none of this
+# torch
+
+# testing
+pytest

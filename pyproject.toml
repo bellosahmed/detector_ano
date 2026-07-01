@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anomaly_detector"
+version = "0.1.0"
+description = "Upload any time-series dataset, detect anomalies, ask questions — numbers from code, LLM only explains."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "bellosahmed" }]
+keywords = ["time-series", "anomaly-detection", "explainable", "local", "llm"]
+dependencies = [
+    "pandas",
+    "numpy",
+    "scipy",
+    "scikit-learn",
+    "statsmodels",
+    "python-dateutil",
+    "openpyxl",
+    "flask",
+]
+
+[project.optional-dependencies]
+deep = ["torch"]        # LSTM autoencoder comparator (Phase 4)
+shape = ["stumpy"]      # Matrix Profile shape detector
+all = ["torch", "stumpy"]
+
+[project.scripts]
+anomaly-detector = "anomaly_detector.cli:main"
+anomaly-detector-web = "anomaly_detector.web.app:main"
+
+[project.urls]
+Repository = "https://github.com/bellosahmed/detector_ano"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"anomaly_detector.web" = ["templates/*.html", "static/*"]
+
+[tool.pytest.ini_options]
+# make `import anomaly_detector` work from the src/ layout without an install
+pythonpath = ["src"]
+testpaths = ["tests"]

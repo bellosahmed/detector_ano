@@ -1,0 +1,15 @@
+{
+  "time_col": "date",
+  "signal": "close",
+  "freq": "D",
+  "anomaly_rows": [
+    91,
+    276,
+    308,
+    319,
+    429,
+    461,
+    554,
+    555
+  ]
+}
