@@ -29,7 +29,9 @@ data/
 *.xlsx
 
 # Internal / project-tracking docs — kept locally, not published
-docs/
+# (ARCHITECTURE.md is a technical reference and IS published)
+docs/*
+!docs/ARCHITECTURE.md
 benchmarks/results/
 
 # OS / editor

@@ -18,11 +18,13 @@ from statsmodels.tsa.seasonal import STL
 _MAD_TO_STD = 1.4826
 
 
-def robust_z(series: pd.Series) -> pd.Series:
-    """Magnitude of each point's robust z-score (median/MAD based).
+def robust_z(series: pd.Series, absolute: bool = True) -> pd.Series:
+    """Each point's robust z-score (median/MAD based).
 
     Using median/MAD instead of mean/std means a few large anomalies don't inflate
-    the spread and hide each other. NaNs propagate as NaN (not flagged downstream).
+    the spread and hide each other. With ``absolute`` (default) the magnitude is returned;
+    with ``absolute=False`` the signed z is returned — used for one-sided scores like a
+    Matrix-Profile distance, where only high values are anomalous. NaNs propagate as NaN.
     """
     values = pd.to_numeric(series, errors="coerce")
     median = values.median()
@@ -33,7 +35,8 @@ def robust_z(series: pd.Series) -> pd.Series:
         scale = values.std(ddof=0)
     if not scale or np.isnan(scale):
         return pd.Series(0.0, index=series.index)
-    return (values - median).abs() / scale
+    deviation = values - median
+    return (deviation.abs() if absolute else deviation) / scale
 
 
 def zscore(series: pd.Series, threshold: float = 4.0) -> pd.Series:

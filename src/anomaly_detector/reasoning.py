@@ -16,6 +16,8 @@ from dataclasses import dataclass, field
 
 import pandas as pd
 
+from .formatting import fmt as _fmt
+
 
 @dataclass
 class Explanation:
@@ -70,15 +72,6 @@ def verdict(n_signals: int, n_co_moving: int) -> str:
     if n_co_moving == 1:
         return "One other signal moved too — possibly a real event."
     return "Isolated to this signal — more likely a sensor glitch than a real event."
-
-
-def _fmt(x: float) -> str:
-    """Human-friendly number: thousands separators for large values, no sci notation."""
-    if abs(x) >= 100:
-        return f"{x:,.0f}"
-    if abs(x) >= 1:
-        return f"{x:.2f}".rstrip("0").rstrip(".")
-    return f"{x:.3g}"
 
 
 def describe(signal: str, time, value: float, expected: float,

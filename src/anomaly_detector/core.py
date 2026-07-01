@@ -80,10 +80,7 @@ def _shape_anomalies(clean, level_flags, prof, df, shape_threshold) -> list[Anom
     except ImportError:
         return []
 
-    median = mp.median()
-    mad = (mp - median).abs().median()
-    scale = mad * detect._MAD_TO_STD if mad else (mp.std(ddof=0) or 1.0)
-    z = (mp - median) / scale                      # one-sided: only high MP = anomalous
+    z = detect.robust_z(mp, absolute=False)        # one-sided: only a high Matrix Profile = anomalous
     hits = z[(z > shape_threshold) & ~level_flags].nlargest(10).index  # top few, not double-counted
 
     out: list[Anomaly] = []
@@ -107,6 +104,17 @@ _MAX_SHAPE_POINTS = 200_000
 def analyze(df: pd.DataFrame, threshold: float = 5.0, combine: str = "any",
             shape: bool = False, shape_threshold: float = 3.0,
             time_col: str | None = None) -> AnalysisResult:
+    """Find and explain the anomalies in a table of time-series data.
+
+    In plain terms: work out the shape of the data (which column is time, which are sensors),
+    score how unusual each point is for every sensor, then for the flagged points write a plain
+    explanation — including which *other* sensors moved at the same moment. Returns an
+    ``AnalysisResult`` (the profile + a list of anomalies per signal).
+
+    ``threshold`` = how unusual a point must be to be flagged (higher = stricter). ``shape=True``
+    adds a slower Matrix-Profile scan for unusual patterns. ``time_col`` overrides the detected
+    time column.
+    """
     prof = profile(df, time_col=time_col)
     period = _period_from_freq(prof.freq)
     result = AnalysisResult(profile=prof)
@@ -127,6 +135,8 @@ def analyze(df: pd.DataFrame, threshold: float = 5.0, combine: str = "any",
             t = df.loc[idx, prof.time_col] if prof.time_col is not None else idx
             value = float(clean.loc[idx])
 
+            # which OTHER sensors were also unusual at this same moment? (cross-sensor evidence:
+            # several sensors moving together points to a real event, one alone to a glitch)
             co_moving = [
                 other for other, (_, oz, _) in scored.items()
                 if other != signal and float(oz.loc[idx]) > threshold

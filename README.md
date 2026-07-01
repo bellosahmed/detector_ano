@@ -65,6 +65,8 @@ invent a number. Detection is an ensemble of robust (median/MAD) z-scores on the
 STL-deseasonalised signal, with an optional Matrix Profile scan for unusual *shapes*. Anomalies are
 explained across sensors (which other signals moved) with a confidence verdict.
 
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, method choices, and references.
+
 ## Repo layout
 
 ```

@@ -15,6 +15,7 @@ import pandas as pd
 
 from . import llm, query, reasoning
 from .core import analyze
+from .formatting import fmt as _fmt
 from .profile import DatasetProfile, profile, _parse_dates
 
 
@@ -46,10 +47,6 @@ def _corr_word(c: float) -> str:
     return f"{strength} {'positive' if c >= 0 else 'negative'}"
 
 
-def _fmt(x: float) -> str:
-    if abs(x) >= 100:
-        return f"{x:,.0f}"
-    return f"{x:.2f}".rstrip("0").rstrip(".")
 
 
 def ask(df: pd.DataFrame, question: str, prof: DatasetProfile | None = None,
