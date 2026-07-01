@@ -86,6 +86,9 @@ python3.12 -m pytest      # run the test suite
 python3.12 scripts/verify.py   # verification gate (results == pandas)
 ```
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the project layout and conventions, and
+[CHANGELOG.md](CHANGELOG.md) for release notes.
+
 ## Licence
 
 MIT — see [LICENSE](LICENSE).
