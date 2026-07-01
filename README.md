@@ -22,6 +22,15 @@ LLM only *explains* them — it never invents figures.
 > **Scope:** the system analyses the dataset you upload — it does **not forecast** future values.
 > Every figure is computed from data that exists.
 
+## Screenshot
+
+The web app (`localhost:3020`): drag in a CSV, and each signal gets a trace with anomalies marked,
+a table explaining *why* each was flagged (and which other sensors moved with it), and a box to ask
+questions in plain English.
+
+<!-- Add a screenshot at assets/screenshot.png, then uncomment the line below: -->
+<!-- ![Anomaly Detector web UI](assets/screenshot.png) -->
+
 ## Quickstart
 
 ```bash
